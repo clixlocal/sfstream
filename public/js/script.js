@@ -60,6 +60,8 @@ function changeSentimentFilter(){
 
 function changeHospitalFilter(e){
   e.preventDefault();
+  $('.hospital-filters .active').removeClass('active');
+  $(this).parent().addClass('active');
 
   var hospital = $(this).data('hospital');
 
