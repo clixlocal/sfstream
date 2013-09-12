@@ -14,9 +14,6 @@ var express = require('express'),
     io = require('socket.io').listen(server),
     _ = require('underscore');
 
-//AppFog doesn't support websockets yet, boo.
-io.set('transports', ['htmlfile', 'xhr-polling', 'jsonp-polling']);
-
 // -- MIDDLEWARE --
 app.use(express.basicAuth('martone', 'hospital'));
 app.use(express.cookieParser());
