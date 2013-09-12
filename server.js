@@ -97,7 +97,7 @@ function processFilter(filter){
   var result = [];
   if (!filter) return result;
 
-  if (filter.sentiment){
+  if (!_.isEmpty(filter.sentiment)){
     result.push('Sentiment__c IN (' + quotify(filter.sentiment).join(',') + ')');
   }
   if (filter.hospital){
