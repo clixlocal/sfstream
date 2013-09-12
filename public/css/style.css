@@ -1,0 +1,43 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body .main-container {
+  margin-top: 30px;
+}
+
+.row.sentiment-filters {
+  padding-right: 25px;
+}
+
+.template {
+  display: none;
+}
+
+.post {
+  margin: 10px;
+  padding: 10px;
+}
+
+.post.sentiment-neutral {
+  background: #eee;
+}
+
+.post.sentiment-negative {
+  background: #faa;
+}
+
+.post.sentiment-positive {
+  background: #afa;
+}
+
+.post .content {
+  font-size: 15px;
+}
+
+.post .time-published {
+  font-size: 12px;
+  font-style: italic;
+}
