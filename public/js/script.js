@@ -1,7 +1,7 @@
 var socket, postTemplate, postContainer, filter = {};
 
 $(function(){
-  socket = io.connect();
+  socket = io.connect('ws://salesforce-mattdiamond.rhcloud.com:8000/');
 
   socket.on('posts', function(posts){
     renderPosts(posts);
