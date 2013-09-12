@@ -15,6 +15,7 @@ $(function(){
   postContainer = $('#StreamContainer .posts');
 
   $('.sentiment-filters button').click(changeSentimentFilter);
+  $('.hospital-filters a').click(changeHospitalFilter);
 });
 
 function clearPosts(){
@@ -52,6 +53,20 @@ function changeSentimentFilter(){
   });
 
   filter.sentiment = sentiment;
+
+  clearPosts();
+  socket.emit('getPosts', filter);
+}
+
+function changeHospitalFilter(e){
+  e.preventDefault();
+
+  var hospital = $(this).text();
+
+  //reset filter
+  filter = {
+    hospital: hospital
+  };
 
   clearPosts();
   socket.emit('getPosts', filter);
