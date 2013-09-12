@@ -61,7 +61,7 @@ function changeSentimentFilter(){
 function changeHospitalFilter(e){
   e.preventDefault();
 
-  var hospital = $(this).text();
+  var hospital = $(this).data('hospital');
 
   //reset filter
   filter = {

@@ -97,6 +97,9 @@ function processFilter(filter){
   if (filter.sentiment){
     result.push('Sentiment__c IN (' + quotify(filter.sentiment).join(',') + ')');
   }
+  if (filter.hospital){
+    result.push("Hospital__r.Name = '" + filter.hospital + "'");
+  }
   return result;
 }
 
