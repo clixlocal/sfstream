@@ -1,21 +1,37 @@
 var socket, postTemplate, postContainer, filter = {};
 
+var hospitalMap = {
+  sbmc : 'Saint Barnabas Medical Center',
+  mmc  : 'Monmouth Medical Center',
+  nbi  : 'Newark Beth Israel Medical Center',
+  cmmc : 'Clara Maass Medical Center',
+  cmc  : 'Community Medical Center',
+  kmc  : 'Kimball Medical Center'
+};
+
 $(function(){
   socket = io.connect('ws://salesforce-mattdiamond.rhcloud.com:8000/');
+
+  var path = window.location.pathname.toLowerCase(),
+      acronym = path.slice(1).toLowerCase();
+
+  if (acronym && hospitalMap[acronym]){
+    filter.hospital = hospitalMap[acronym];
+    $('.hospital-filters [href="'+path+'"]').parent().addClass('active');
+  }
 
   socket.on('posts', function(posts){
     renderPosts(posts);
   });
 
   socket.on('authenticated', function () {
-    socket.emit('getPosts');
+    socket.emit('getPosts', filter);
   });
 
   postTemplate = $('.post.template');
   postContainer = $('#StreamContainer .posts');
 
   $('.sentiment-filters button').click(changeSentimentFilter);
-  $('.hospital-filters a').click(changeHospitalFilter);
 });
 
 function clearPosts(){
@@ -53,22 +69,6 @@ function changeSentimentFilter(){
   });
 
   filter.sentiment = sentiment;
-
-  clearPosts();
-  socket.emit('getPosts', filter);
-}
-
-function changeHospitalFilter(e){
-  e.preventDefault();
-  $('.hospital-filters .active').removeClass('active');
-  $(this).parent().addClass('active');
-
-  var hospital = $(this).data('hospital');
-
-  //reset filter
-  filter = {
-    hospital: hospital
-  };
 
   clearPosts();
   socket.emit('getPosts', filter);
