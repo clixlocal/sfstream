@@ -1,0 +1,24 @@
+{
+  "name": "inbox-app",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "server.js",
+  "dependencies": {
+    "nforce": "~0.5.1",
+    "express": "~3.3.7",
+    "underscore": "~1.5.2",
+    "socket.io": "~0.9.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://523238abe0b8cd355b000154@salesforce-mattdiamond.rhcloud.com/~/git/salesforce.git/"
+  },
+  "author": "",
+  "license": "BSD",
+  "gitHead": "fca9a538c027b895b0f091060cb008106d626b17"
+}

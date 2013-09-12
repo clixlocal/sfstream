@@ -107,4 +107,4 @@ function quotify(array){
   return _.map(array, function(x){ return "'" + x + "'"; });
 }
 
-server.listen(process.env.VCAP_APP_PORT || 3000);
+server.listen(process.env.OPENSHIFT_NODEJS_PORT || 3000);
