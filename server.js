@@ -58,7 +58,7 @@ function getPosts(socket, oauth, filter){
     if(!err && resp.records) {
       socket.emit('posts', resp.records);
     } else {
-      socket.emit(err);
+      socket.emit('error', err);
     }
   });
 }

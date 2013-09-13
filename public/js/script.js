@@ -13,7 +13,7 @@ $(function(){
   socket = io.connect('ws://salesforce-mattdiamond.rhcloud.com:8000/');
 
   var path = window.location.pathname.toLowerCase(),
-      acronym = path.slice(1).toLowerCase();
+      acronym = path.slice(1);
 
   if (acronym && hospitalMap[acronym]){
     filter.hospital = hospitalMap[acronym];
@@ -22,6 +22,10 @@ $(function(){
 
   socket.on('posts', function(posts){
     renderPosts(posts);
+  });
+
+  socket.on('error', function(err){
+    console.error(err);
   });
 
   socket.on('authenticated', function () {
