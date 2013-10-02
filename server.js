@@ -114,15 +114,24 @@ function authenticate(socket){
   });
 }
 
+var fieldFilters = [
+  'Influencer__c',
+  'Department__c',
+  'Type__c'
+];
+
 function processFilter(filter){
   var result = [];
   if (!filter) return result;
 
+  _.each(fieldFilters, function(field){
+    if (!_.isEmpty(filter[field])){
+      result.push(field + ' IN (' + quotify(filter[field]).join(', ') + ')');
+    }
+  });
+
   if (!_.isEmpty(filter.sentiment)){
     result.push('Sentiment__c IN (' + quotify(filter.sentiment).join(',') + ')');
-  }
-  if (!_.isEmpty(filter.Influencer__c)){
-    result.push('Influencer__c IN (' + quotify(filter.Influencer__c).join(',') + ')');
   }
   if (filter.hospital){
     result.push("Hospital__r.Name = '" + filter.hospital + "'");
