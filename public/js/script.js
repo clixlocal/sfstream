@@ -10,7 +10,8 @@ var hospitalMap = {
 };
 
 $(function(){
-  socket = io.connect('ws://salesforce-mattdiamond.rhcloud.com:8000/');
+  //socket = io.connect('ws://salesforce-mattdiamond.rhcloud.com:8000/');
+  socket = io.connect();
 
   var path = window.location.pathname.toLowerCase(),
       acronym = path.slice(1);
@@ -30,6 +31,9 @@ $(function(){
 
   socket.on('authenticated', function () {
     socket.emit('getPosts', filter);
+    socket.emit('getFields', function(fields){
+      console.log(fields);
+    });
   });
 
   postTemplate = $('.post.template');

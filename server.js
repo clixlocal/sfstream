@@ -63,6 +63,13 @@ function getPosts(socket, oauth, filter){
   });
 }
 
+function getFields(callback, oauth){
+  org.getDescribe('Post__c', oauth, function(err, resp){
+    var fields = _.indexBy(resp.fields, 'name');
+    callback(fields);
+  });
+}
+
 // --- SOCKETS ---
 
 io.sockets.on('connection', function (socket) {
@@ -75,6 +82,17 @@ io.sockets.on('connection', function (socket) {
         socket.emit('error', err);
       } else {
         getPosts(socket, oauth, filter);
+      }
+    });
+  });
+
+  socket.on('getFields', function(callback){
+    socket.get('oauth', function(err, oauth){
+      if (err){
+        console.log(err);
+        socket.emit('error', err);
+      } else {
+        getFields(callback, oauth);
       }
     });
   });
