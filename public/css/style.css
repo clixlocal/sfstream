@@ -41,3 +41,37 @@ body .main-container {
   font-size: 12px;
   font-style: italic;
 }
+
+#StreamContainer {
+  float: right;
+}
+
+#FilterMenu {
+  display: none;
+  padding-top: 20px;
+}
+
+#FilterMenu h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+#FilterMenu .name {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#FilterMenu .values {
+  margin-left: 10px;
+}
+
+#FilterMenu .values .value {
+  cursor: pointer;
+}
+
+#FilterMenu .values .value.selected {
+  font-weight: bold;
+}

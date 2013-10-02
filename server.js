@@ -14,6 +14,8 @@ var express = require('express'),
     io = require('socket.io').listen(server),
     _ = require('underscore');
 
+io.set('log level', 2);
+
 // -- MIDDLEWARE --
 app.use(express.basicAuth('martone', 'hospital'));
 app.use(express.cookieParser());
@@ -54,6 +56,7 @@ var whereFieldsDefault = [
 function getPosts(socket, oauth, filter){
   var whereFields = _.union(whereFieldsDefault, processFilter(filter));
   var query = 'SELECT ' + postFields.join(', ') + ' FROM Post__c WHERE ' + whereFields.join(' AND ') + ' ORDER BY Publish_Date__c DESC LIMIT 20';
+  console.log(query);
   org.query(query, oauth, function(err, resp){
     if(!err && resp.records) {
       socket.emit('posts', resp.records);
@@ -117,6 +120,9 @@ function processFilter(filter){
 
   if (!_.isEmpty(filter.sentiment)){
     result.push('Sentiment__c IN (' + quotify(filter.sentiment).join(',') + ')');
+  }
+  if (!_.isEmpty(filter.Influencer__c)){
+    result.push('Influencer__c IN (' + quotify(filter.Influencer__c).join(',') + ')');
   }
   if (filter.hospital){
     result.push("Hospital__r.Name = '" + filter.hospital + "'");
