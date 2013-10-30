@@ -31,13 +31,21 @@ $(function(){
 
   socket.on('authenticated', function () {
     socket.emit('getPosts', filter);
-    socket.emit('getFields', initFilters);
+    //socket.emit('getFields', initFilters);
   });
 
   postTemplate = $('.post.template');
   postContainer = $('#StreamContainer .posts');
 
   $('.sentiment-filters button').click(changeSentimentFilter);
+
+  $('#FilterMenu').on('click', '.value', function(){
+    $(this).toggleClass('selected');
+    var $field = $(this).closest('.field-filter');
+    updateFilterField($field);
+    clearPosts();
+    socket.emit('getPosts', filter);
+  });
 });
 
 function clearPosts(){

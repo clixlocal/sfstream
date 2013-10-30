@@ -47,7 +47,6 @@ body .main-container {
 }
 
 #FilterMenu {
-  display: none;
   padding-top: 20px;
 }
 
@@ -58,7 +57,6 @@ body .main-container {
 }
 
 #FilterMenu .name {
-  cursor: pointer;
   font-size: 15px;
   font-weight: bold;
 }
