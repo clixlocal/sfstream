@@ -79,6 +79,16 @@ body .main-container {
   color: green;
 }
 
+.btn.sentiment-positive.active {
+  background: green;
+  color: white;
+}
+
 .btn.sentiment-negative {
   color: red;
+}
+
+.btn.sentiment-negative.active {
+  background: red;
+  color: white;
 }

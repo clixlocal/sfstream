@@ -75,7 +75,13 @@ function processContent(content){
 
 function changeSentimentFilter(){
   $this = $(this);
-  $this.toggleClass('active');
+
+  if ($this.hasClass('active')){
+    $this.removeClass('active');
+  } else {
+    $this.siblings().removeClass('active');
+    $this.addClass('active');
+  }
 
   var sentiment = [];
   $('.sentiment-filters .active').each(function(){
