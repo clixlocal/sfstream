@@ -74,3 +74,11 @@ body .main-container {
 #FilterMenu .values .value.selected {
   background: #ffffaa;
 }
+
+.btn.sentiment-positive {
+  color: green;
+}
+
+.btn.sentiment-negative {
+  color: red;
+}
