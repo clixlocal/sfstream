@@ -40,7 +40,13 @@ $(function(){
   $('.sentiment-filters button').click(changeSentimentFilter);
 
   $('#FilterMenu').on('click', '.value', function(){
-    $(this).toggleClass('selected');
+    var $this = $(this);
+    if ($this.hasClass('selected')){
+      $this.removeClass('selected');
+    } else {
+      $this.addClass('selected');
+      $this.siblings().removeClass('selected');
+    }
     var $field = $(this).closest('.field-filter');
     updateFilterField($field);
     clearPosts();
