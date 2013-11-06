@@ -19,8 +19,6 @@ $(function(){
   if (acronym && hospitalMap[acronym]){
     filter.hospital = hospitalMap[acronym];
     $('.hospital-filters [href="'+path+'"]').parent().addClass('active');
-  } else {
-    $('.topic-filter').hide();
   }
 
   socket.on('posts', function(posts){
@@ -33,9 +31,7 @@ $(function(){
 
   socket.on('authenticated', function () {
     socket.emit('getPosts', filter);
-    if (filter.hospital){
-      socket.emit('getTopics', filter.hospital, initTopicFilter);
-    }
+    socket.emit('getTopics', filter.hospital, initTopicFilter);
   });
 
   postTemplate = $('.post.template');
@@ -160,5 +156,4 @@ function initTopicFilter(topics){
 
     $filters.append($filter);
   });
-  $('.topic-filter').show();
 }

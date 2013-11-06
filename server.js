@@ -74,7 +74,8 @@ function getFields(callback, oauth){
 }
 
 function getTopics(oauth, hospital, callback){
-  var query = "SELECT Topic_Tags__c FROM Post__c WHERE Topic_Tags__c != null AND Hospital__r.Name = '" + hospital + "' AND Publish_date__c = LAST_N_DAYS:30";
+  var hospitalQuery = hospital ? " AND Hospital__r.Name = '" + hospital + "' " : ' ';
+  var query = "SELECT Topic_Tags__c FROM Post__c WHERE Topic_Tags__c != null" + hospitalQuery + "AND Publish_date__c = LAST_N_DAYS:30";
   org.query(query, oauth, function(err, resp){
     if (!resp.records){
       callback(null);
