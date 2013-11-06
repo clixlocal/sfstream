@@ -54,6 +54,15 @@ $(function(){
     clearPosts();
     socket.emit('getPosts', filter);
   });
+
+  $('.clear-filter').on('click', function(){
+    var $filter = $(this).closest('.field-filter');
+    $('.value.selected', $filter).removeClass('selected');
+    var field = $filter.data('field');
+    delete filter[field];
+    clearPosts();
+    socket.emit('getPosts', filter);
+  });
 });
 
 function clearPosts(){

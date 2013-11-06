@@ -20,6 +20,14 @@ body .main-container {
   color: #999;
 }
 
+.clear-filter {
+  float: right;
+  font-size: 12px;
+  color: #55F;
+  line-height: 20px;
+  cursor: pointer;
+}
+
 .post {
   margin: 10px;
   padding: 10px;
