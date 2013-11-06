@@ -19,6 +19,8 @@ $(function(){
   if (acronym && hospitalMap[acronym]){
     filter.hospital = hospitalMap[acronym];
     $('.hospital-filters [href="'+path+'"]').parent().addClass('active');
+  } else {
+    $('.topic-filter').hide();
   }
 
   socket.on('posts', function(posts){
@@ -31,7 +33,9 @@ $(function(){
 
   socket.on('authenticated', function () {
     socket.emit('getPosts', filter);
-    //socket.emit('getFields', initFilters);
+    if (filter.hospital){
+      socket.emit('getTopics', filter.hospital, initTopicFilter);
+    }
   });
 
   postTemplate = $('.post.template');
@@ -45,7 +49,9 @@ $(function(){
       $this.removeClass('selected');
     } else {
       $this.addClass('selected');
-      $this.siblings().removeClass('selected');
+      if (!$this.closest('.field-filter').hasClass('multi')){
+        $this.siblings().removeClass('selected');
+      }
     }
     var $field = $(this).closest('.field-filter');
     updateFilterField($field);
@@ -138,4 +144,21 @@ function updateFilterField($field){
     selected.push($(this).data('value'));
   });
   filter[field] = selected;
+}
+
+function initTopicFilter(topics){
+  if (!topics) return;
+
+  topics = topics.slice(0, 5);
+  var $filters = $('.topic-filter .values');
+  $filters.empty();
+  $.each(topics, function(i, topic){
+    var $filter = $('<div>')
+                    .addClass('value')
+                    .data('value', topic.name)
+                    .text(topic.name);
+
+    $filters.append($filter);
+  });
+  $('.topic-filter').show();
 }

@@ -56,7 +56,7 @@ var whereFieldsDefault = [
 function getPosts(socket, oauth, filter){
   var whereFields = _.union(whereFieldsDefault, processFilter(filter));
   var query = 'SELECT ' + postFields.join(', ') + ' FROM Post__c WHERE ' + whereFields.join(' AND ') + ' ORDER BY Publish_Date__c DESC LIMIT 20';
-  console.log(query);
+
   org.query(query, oauth, function(err, resp){
     if(!err && resp.records) {
       socket.emit('posts', resp.records);
@@ -70,6 +70,27 @@ function getFields(callback, oauth){
   org.getDescribe('Post__c', oauth, function(err, resp){
     var fields = _.indexBy(resp.fields, 'name');
     callback(fields);
+  });
+}
+
+function getTopics(oauth, hospital, callback){
+  var query = "SELECT Topic_Tags__c FROM Post__c WHERE Topic_Tags__c != null AND Hospital__r.Name = '" + hospital + "' AND Publish_date__c = LAST_N_DAYS:30";
+  org.query(query, oauth, function(err, resp){
+    if (!resp.records){
+      callback(null);
+      return;
+    }
+
+    var freqs = {};
+    _.each(resp.records, function(rec){
+      var topic = rec.Topic_Tags__c;
+      freqs[topic] = freqs[topic] ? freqs[topic] + 1 : 1;
+    });
+    var topics = _.map(freqs, function(value, key){
+      return { name: key, frequency: value };
+    });
+    topics = _.sortBy(topics, 'frequency');
+    callback(topics.reverse());
   });
 }
 
@@ -99,6 +120,17 @@ io.sockets.on('connection', function (socket) {
       }
     });
   });
+
+  socket.on('getTopics', function(hospital, callback){
+    socket.get('oauth', function(err, oauth){
+      if (err){
+        console.log(err);
+        socket.emit('error', err);
+      } else {
+        getTopics(oauth, hospital, callback);
+      }
+    });
+  });
 });
 
 function authenticate(socket){
@@ -117,7 +149,7 @@ function authenticate(socket){
 var fieldFilters = [
   'Influencer__c',
   'Department__c',
-  'Type__c'
+  'Topic_Tags__c'
 ];
 
 function processFilter(filter){
