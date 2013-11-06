@@ -33,11 +33,13 @@ var authCredentials = {
 };
 
 var postFields = [
+  'Name',
   'Content__c',
   'Sentiment__c',
   'Publish_Date__c',
   'Hospital_Name__c',
   'Post_URL__c',
+  'Url__c',
   'Influencer__c',
   'Type__c',
   'Topic_Tags__c',

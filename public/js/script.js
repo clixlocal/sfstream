@@ -22,6 +22,7 @@ $(function(){
   }
 
   socket.on('posts', function(posts){
+    console.log(posts);
     renderPosts(posts);
   });
 
@@ -81,6 +82,11 @@ function renderPosts(posts){
     $('.content', $post).html(content);
     var date = new Date(this.Publish_Date__c);
     $('.time-published', $post).text(date.toLocaleString());
+    $('.post-title', $post).text(this.Name);
+    if (this.Url__c){
+      var liveLink = $('<a>').attr({ href: this.Url__c, target: '_blank' }).text('View Live');
+      $('.live-link', $post).html(liveLink);
+    }
     $post.addClass('sentiment-' + this.Sentiment__c.toLowerCase());
     $post.appendTo(postContainer).slideDown();
   });

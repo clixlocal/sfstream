@@ -45,13 +45,27 @@ body .main-container {
   background: #afa;
 }
 
+.post .post-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
 .post .content {
   font-size: 15px;
+}
+
+.post .post-footer {
+  overflow: hidden;
 }
 
 .post .time-published {
   font-size: 12px;
   font-style: italic;
+  float: left;
+}
+
+.post .live-link {
+  float: right;
 }
 
 #StreamContainer {
