@@ -28,9 +28,18 @@ body .main-container {
   cursor: pointer;
 }
 
+.posts {
+  padding-top: 10px;
+}
+
 .post {
-  margin: 10px;
   padding: 10px;
+}
+
+.post .post-image {
+  height: 64px;
+  width: 64px;
+  background: white;
 }
 
 .post.sentiment-neutral {

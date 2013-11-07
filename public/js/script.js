@@ -22,7 +22,6 @@ $(function(){
   }
 
   socket.on('posts', function(posts){
-    console.log(posts);
     renderPosts(posts);
   });
 
@@ -86,6 +85,9 @@ function renderPosts(posts){
     if (this.Url__c){
       var liveLink = $('<a>').attr({ href: this.Url__c, target: '_blank' }).text('View Live');
       $('.live-link', $post).html(liveLink);
+    }
+    if (this.Author__r){
+      $('.post-image', $post).attr('src', this.Author__r.Picture_URL__c);
     }
     $post.addClass('sentiment-' + this.Sentiment__c.toLowerCase());
     $post.appendTo(postContainer).slideDown();
