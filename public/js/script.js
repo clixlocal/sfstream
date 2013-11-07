@@ -81,11 +81,7 @@ function renderPosts(posts){
     $('.content', $post).html(content);
     var date = new Date(this.Publish_Date__c);
     $('.time-published', $post).text(date.toLocaleString());
-    $('.post-title', $post).text(this.Name);
-    if (this.Url__c){
-      var liveLink = $('<a>').attr({ href: this.Url__c, target: '_blank' }).text('View Live');
-      $('.live-link', $post).html(liveLink);
-    }
+    $('.post-title', $post).text(this.Name).attr('href', this.Url__c);
     if (this.Author__r){
       $('.post-image', $post).attr('src', this.Author__r.Picture_URL__c);
     }

@@ -55,6 +55,7 @@ body .main-container {
 }
 
 .post .post-title {
+  display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
