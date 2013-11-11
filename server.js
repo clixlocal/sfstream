@@ -75,25 +75,36 @@ function getFields(callback, oauth){
   });
 }
 
-function getTopics(oauth, hospital, callback){
-  var hospitalQuery = hospital ? " AND Hospital__r.Name = '" + hospital + "' " : ' ';
-  var query = "SELECT Topic_Tags__c FROM Post__c WHERE Topic_Tags__c != null" + hospitalQuery + "AND Publish_date__c = LAST_N_DAYS:30";
+function getTrending(oauth, hospital, callback){
+  var hospitalQuery = hospital ? " AND Hospital__r.Name = '" + hospital + "'" : '';
+  var query = "SELECT Topic_Tags__c, Descriptive_Keywords__c FROM Post__c WHERE Publish_date__c = LAST_N_DAYS:30" + hospitalQuery;
   org.query(query, oauth, function(err, resp){
-    if (!resp.records){
+    if (err){
       callback(null);
+      console.log(err);
       return;
     }
 
-    var freqs = {};
+    var topics = {}, keywords = {};
     _.each(resp.records, function(rec){
       var topic = rec.Topic_Tags__c;
-      freqs[topic] = freqs[topic] ? freqs[topic] + 1 : 1;
+      if (topic){
+        topics[topic] = topics[topic] ? topics[topic] + 1 : 1;
+      }
+      var keyword = rec.Descriptive_Keywords__c;
+      if (keyword){
+        keywords[keyword] = keywords[keyword] ? keywords[keyword] + 1 : 1;
+      }
     });
-    var topics = _.map(freqs, function(value, key){
+    topics = _.map(topics, function(value, key){
+      return { name: key, frequency: value };
+    });
+    keywords = _.map(keywords, function(value, key){
       return { name: key, frequency: value };
     });
     topics = _.sortBy(topics, 'frequency');
-    callback(topics.reverse());
+    keywords = _.sortBy(keywords, 'frequency');
+    callback({ topics : topics.reverse(), keywords: keywords.reverse() });
   });
 }
 
@@ -124,13 +135,13 @@ io.sockets.on('connection', function (socket) {
     });
   });
 
-  socket.on('getTopics', function(hospital, callback){
+  socket.on('getTrending', function(hospital, callback){
     socket.get('oauth', function(err, oauth){
       if (err){
         console.log(err);
         socket.emit('error', err);
       } else {
-        getTopics(oauth, hospital, callback);
+        getTrending(oauth, hospital, callback);
       }
     });
   });
@@ -152,7 +163,8 @@ function authenticate(socket){
 var fieldFilters = [
   'Influencer__c',
   'Department__c',
-  'Topic_Tags__c'
+  'Topic_Tags__c',
+  'Descriptive_Keywords__c'
 ];
 
 function processFilter(filter){

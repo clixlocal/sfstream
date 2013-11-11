@@ -31,7 +31,7 @@ $(function(){
 
   socket.on('authenticated', function () {
     socket.emit('getPosts', filter);
-    socket.emit('getTopics', filter.hospital, initTopicFilter);
+    socket.emit('getTrending', filter.hospital, initTrendingFilter);
   });
 
   postTemplate = $('.post.template');
@@ -155,17 +155,35 @@ function updateFilterField($field){
   filter[field] = selected;
 }
 
-function initTopicFilter(topics){
-  if (!topics) return;
+function initTrendingFilter(trending){
+  var topics = trending.topics,
+      keywords = trending.keywords,
+      topicFilter = $('.topic-filter'),
+      keywordFilter = $('.keyword-filter');
 
-  topics = topics.slice(0, 5);
-  var $filters = $('.topic-filter .values');
+  if (!topics){
+    topicFilter.hide();
+  } else {
+    topics = topics.slice(0, 5);
+    loadFilter(topicFilter, topics);
+  }
+
+  if (!keywords){
+    keywordFilter.hide();
+  } else {
+    keywords = keywords.slice(0, 5);
+    loadFilter(keywordFilter, keywords);
+  }
+}
+
+function loadFilter(context, objects){
+  var $filters = $('.values', context);
   $filters.empty();
-  $.each(topics, function(i, topic){
+  $.each(objects, function(i, obj){
     var $filter = $('<div>')
                     .addClass('value')
-                    .data('value', topic.name)
-                    .text(topic.name);
+                    .data('value', obj.name)
+                    .text(obj.name);
 
     $filters.append($filter);
   });

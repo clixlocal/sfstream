@@ -128,3 +128,13 @@ body .main-container {
   background: red;
   color: white;
 }
+
+.subheader {
+  font-style: italic;
+  font-size: 16px;
+  margin: 10px;
+}
+
+.subpanel {
+  margin-left: 20px;
+}

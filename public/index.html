@@ -51,10 +51,19 @@
             <div class='value' data-value='Human Resources'>Human Resources</div>
           </div>
         </div>
-        <div class='field-filter panel panel-default multi topic-filter' data-field='Topic_Tags__c'>
-          <div class='name panel-heading'>Trending<span class='clear-filter'>Clear</span></div>
-          <div class='values'>
-            <div class='loading'>Loading topics...</div>
+        <div class='panel panel-default'>
+          <div class='name panel-heading'>Trending</div>
+          <div class='subheader'>Topics</div>
+          <div class='subpanel field-filter multi topic-filter' data-field='Topic_Tags__c'>
+            <div class='values'>
+              <div class='loading'>Loading topics...</div>
+            </div>
+          </div>
+          <div class='subheader'>Keywords</div>
+          <div class='subpanel field-filter multi keyword-filter' data-field='Descriptive_Keywords__c'>
+            <div class='values'>
+              <div class='loading'>Loading keywords...</div>
+            </div>
           </div>
         </div>
       </div>
