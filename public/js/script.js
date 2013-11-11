@@ -74,11 +74,11 @@ function renderPosts(posts){
   $('.loading').hide();
   $.each(posts, function(){
     var $post = postTemplate.clone();
-    if (this.Author__r){
-      $('.author-name', $post).text(this.Author__r.Name);
-    }
+//    if (this.Author__r){
+//      $('.author-name', $post).text(this.Author__r.Name);
+//    }
     var content = processContent(this.Content__c);
-    $('.content', $post).html(content);
+    $('.content', $post).text(content);
     var date = new Date(this.Publish_Date__c);
     $('.time-published', $post).text(date.toLocaleString());
     $('.post-title', $post).text(this.Name).attr('href', this.Url__c);
@@ -91,7 +91,9 @@ function renderPosts(posts){
 }
 
 function processContent(content){
-  return content.replace(/http:\S+/, "<a href='$&' target='_blank'>$&</a>");
+  content = strip(content);
+  return content.length > 140 ? content.slice(0, 137) + '...' : content;
+  //return content.replace(/http:\S+/, "<a href='$&' target='_blank'>$&</a>");
 }
 
 function changeSentimentFilter(){
@@ -187,4 +189,10 @@ function loadFilter(context, objects){
 
     $filters.append($filter);
   });
+}
+
+function strip(html){
+  var tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
 }
