@@ -28,7 +28,7 @@ app.get('*', function(req, res){
 // -- CREDENTIALS --
 var authCredentials = {
   username: 'matt@clixlocal.net',
-  password: 'Diablo123',
+  password: 'ecrm@rt0ne!',
   securityToken: 'gndMn2mAQA3LGddS3gkaLWe9v'
 };
 
